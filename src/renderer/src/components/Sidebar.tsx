@@ -1,7 +1,7 @@
 import React from 'react'
 import { HiOutlineMusicalNote } from 'react-icons/hi2'
 import { RxBookmark, RxDashboard, RxPerson } from 'react-icons/rx'
-import { useLocation } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 
 interface SidebarNavProps {
   to: string
@@ -11,8 +11,13 @@ interface SidebarNavProps {
 
 const SidebarNav: React.FC<SidebarNavProps> = ({ to, title, icon }) => {
   const location = useLocation()
+  const navigate = useNavigate()
+
   return (
     <div
+      onClick={() => {
+        navigate(to)
+      }}
       className={`${
         location.pathname.startsWith(to) && 'bg-black/20'
       } w-full flex text-white border border-gray-200/20 gap-2 cursor-pointer bg-opacity-30 items-center font-light bg-gray-200 p-2 rounded-md hover:bg-opacity-50 select-none`}
@@ -40,7 +45,7 @@ const Sidebar: React.FC = () => {
     {
       id: 'nav_3',
       title: 'Playing',
-      to: '/playing',
+      to: '/current',
       icon: <HiOutlineMusicalNote />
     },
     {

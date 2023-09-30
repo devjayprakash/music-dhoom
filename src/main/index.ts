@@ -79,6 +79,15 @@ ipcMain.handle('set_title', (_, windowTitle) => {
   mainWindow && mainWindow.setTitle(windowTitle)
 })
 
+ipcMain.handle('get-audio-file', async (_, path) => {
+  try {
+    const buffer = await fs.readFile(path)
+    return buffer
+  } catch (error) {
+    throw error
+  }
+})
+
 ipcMain.handle('open_folder_picker', async () => {
   console.log('this is working')
 
@@ -98,8 +107,6 @@ ipcMain.handle('open_folder_picker', async () => {
       for (let i = 0; i < only_mp3.length; i++) {
         jsmedia.read(only_mp3[i], {
           onSuccess: async (tag) => {
-            const audio_data = await fs.readFile(only_mp3[i], 'binary')
-
             const pic_data = tag.tags.picture?.data || []
             const format = tag.tags.picture?.format || ''
 
@@ -108,12 +115,11 @@ ipcMain.handle('open_folder_picker', async () => {
             for (let i = 0; i < pic_data.length; i++) {
               b_64_str += String.fromCharCode(pic_data[i])
             }
+
             final.push({
-              title: tag.tags.title,
-              artists: tag.tags.artist,
+              tags: tag.tags,
               pic_url: `data:${format};base64,${btoa(b_64_str)}`,
-              path: only_mp3[i],
-              binary_str: audio_data
+              path: only_mp3[i]
             })
 
             if (i === only_mp3.length - 1) {

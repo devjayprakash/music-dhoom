@@ -5,22 +5,14 @@ import { HiPlayCircle } from 'react-icons/hi2'
 const AlbumArt: React.FC<ISong> = (song) => {
   const { setCurrentSong } = useSongStore()
 
-  const { artists, pic_url, title } = song
-
   const playAlbum = () => {
-    let audio = new Audio(
-      `file:///Users/jayprakashpathak/Desktop/music/Squid-Game-Theme(PaglaSongs).mp3`
-    )
-    console.log(song.path)
-
-    audio.play()
     setCurrentSong(song)
   }
 
   return (
     <div className="w-[150px] bg-white/30 rounded-md overflow-hidden hover:scale-105 cursor-pointer transform duration-150">
       <div className="relative group">
-        <img width={150} src={pic_url} alt="album art" />
+        <img width={150} src={song.pic_url} alt="album art" />
         <div
           onClick={() => {
             playAlbum()
@@ -31,8 +23,8 @@ const AlbumArt: React.FC<ISong> = (song) => {
         </div>
       </div>
       <div className="p-2">
-        <div className="text-md truncate text-white">{title}</div>
-        <div className="text-xs truncate text-gray-300">{artists}</div>
+        <div className="text-md truncate text-white">{song.tags.title}</div>
+        <div className="text-xs truncate text-gray-300">{song.tags.artist}</div>
       </div>
     </div>
   )

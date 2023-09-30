@@ -1,13 +1,14 @@
 import AlbumArt from '@renderer/components/AlbumArt'
-import { ISong } from '@renderer/store/songStore'
-import { useState } from 'react'
+import useSongStore from '@renderer/store/songStore'
 import { HiMusicalNote } from 'react-icons/hi2'
 
 function Dasdhboard(): JSX.Element {
-  const [songs, setSongs] = useState<Array<ISong>>([])
+  const { songs, setSongs } = useSongStore()
 
   const hanldePickAudioFolder = () => {
     window.electron.ipcRenderer.invoke('open_folder_picker').then((result) => {
+      console.log(result)
+
       setSongs(result)
     })
   }
@@ -29,7 +30,7 @@ function Dasdhboard(): JSX.Element {
       ) : (
         <div className="flex flex-wrap gap-4 p-4">
           {songs.map((song) => (
-            <AlbumArt {...song} />
+            <AlbumArt key={song.path} {...song} />
           ))}
         </div>
       )}
