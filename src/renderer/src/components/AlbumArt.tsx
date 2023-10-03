@@ -3,14 +3,26 @@ import React from 'react'
 import { HiPlayCircle } from 'react-icons/hi2'
 
 const AlbumArt: React.FC<ISong> = (song) => {
-  const { setCurrentSong } = useSongStore()
+  const { setCurrentSong, current_song } = useSongStore()
+
+  const isCurrentSong = song.path === current_song?.path
 
   const playAlbum = () => {
+    window.electron.ipcRenderer.invoke('save_last_song_played', song.path)
     setCurrentSong(song)
   }
 
   return (
-    <div className="w-[150px] bg-white/30 rounded-md overflow-hidden hover:scale-105 cursor-pointer transform duration-150">
+    <div className="w-[150px] relative bg-white/30 rounded-md overflow-hidden hover:scale-105 cursor-pointer transform duration-150">
+      {isCurrentSong && (
+        <img
+          src="/playing.gif"
+          alt="playing"
+          width={30}
+          height={30}
+          className="rounded-md absolute top-2 left-2 z-50 opacity-80"
+        />
+      )}
       <div className="relative group">
         <img width={150} src={song.pic_url} alt="album art" />
         <div

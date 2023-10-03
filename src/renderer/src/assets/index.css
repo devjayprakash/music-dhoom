@@ -13,3 +13,27 @@
 ul {
   list-style: none;
 }
+
+.slider {
+  accent-color: black;
+}
+
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #434343;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #000000;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}

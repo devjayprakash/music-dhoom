@@ -117,13 +117,6 @@ class AudioManager extends EventTarget {
     }
   }
 
-  onEnded() {
-    this.isPlaying = false
-    this.songDuration = undefined
-    this.songStartingTime = undefined
-    this.dispatchEvent(new Event('song_ended'))
-  }
-
   onSongFinished() {
     this.isPlaying = false
     this.songDuration = undefined

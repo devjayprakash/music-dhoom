@@ -1,11 +1,36 @@
+import AlbumArt from '@renderer/components/AlbumArt'
 import SongFrequency from '@renderer/components/SongFrequency'
 import useSongStore from '@renderer/store/songStore'
+import { useCallback } from 'react'
 
 const Current: React.FC = () => {
-  const { current_song } = useSongStore()
+  const { current_song, songs } = useSongStore()
+
+  const getSimilarSongs = useCallback(() => {
+    try {
+      return songs.filter((song) => {
+        if (song.path === current_song?.path) {
+          return false
+        }
+        if (song.tags.artist === current_song?.tags.artist) {
+          return true
+        }
+        if (song.tags.genre === current_song?.tags.genre) {
+          return true
+        }
+        if (song.tags.year === current_song?.tags.year) {
+          return true
+        }
+        return false
+      })
+    } catch (error) {
+      console.error(error)
+      throw error
+    }
+  }, [current_song, songs])
 
   return (
-    <div className="w-full h-screen backdrop-blur-lg bg-black/40 backdrop-filter">
+    <div className="w-full h-screen backdrop-blur-lg bg-[#36454F]/80 flex flex-col">
       <div className="bg-white/30 relative">
         <div className="flex gap-4">
           <div className="relative w-[350px] h-[350px] flex-shrink-0">
@@ -27,9 +52,23 @@ const Current: React.FC = () => {
             <div>{current_song?.tags.artist}</div>
             <div>{current_song?.tags.genre}</div>
             <div>{current_song?.tags.year}</div>
+            <SongFrequency />
           </div>
         </div>
-        <SongFrequency />
+      </div>
+      <div className="p-3 flex-grow overflow-auto">
+        <div className="text-2xl text-white">Similar songs</div>
+        <div className="flex flex-wrap gap-3">
+          {getSimilarSongs().map((song) => (
+            <AlbumArt
+              binary={song.binary}
+              path={song.path}
+              pic_url={song.pic_url}
+              tags={song.tags}
+              key={song.path}
+            />
+          ))}
+        </div>
       </div>
     </div>
   )

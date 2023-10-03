@@ -21,6 +21,10 @@ interface ISongStore {
   audioManager: AudioManager
   songs: ISong[]
   setSongs: (songs: ISong[]) => void
+  dominant_color: string
+  setDominantColor: (color: string) => void
+  searchQuery: string
+  setSearchQuery: (query: string) => void
 }
 
 const useSongStore = create<ISongStore>((set) => ({
@@ -49,7 +53,14 @@ const useSongStore = create<ISongStore>((set) => ({
   setSongs: (songs) =>
     set({
       songs: songs
-    })
+    }),
+  dominant_color: 'rgb(0,0,0)',
+  setDominantColor: (color) =>
+    set({
+      dominant_color: color
+    }),
+  searchQuery: '',
+  setSearchQuery: (query) => set({ searchQuery: query })
 }))
 
 export default useSongStore

@@ -11,7 +11,7 @@ const MainContainer: React.FC = () => {
     <div
       className="flex w-full h-full overflow-auto bg-cover bg-center"
       style={{
-        backgroundImage: `url('${current_song?.pic_url}')`
+        backgroundImage: current_song ? `url('${current_song?.pic_url}')` : `url('/back.jpg')`
       }}
     >
       <Sidebar />
